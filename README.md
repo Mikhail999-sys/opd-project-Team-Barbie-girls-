@@ -4,7 +4,7 @@
 
 ### Последняя Версия
 
-[Beta Game]([https://pages.github.com/](https://github.com/Mikhail999-sys/opd-project-Team-Barbie-girls-/releases/tag/Beta))
+[Beta Game](https://github.com/Mikhail999-sys/opd-project-Team-Barbie-girls-/releases/tag/Beta)
 
 
 
