@@ -3,15 +3,26 @@ define GG = Character("[ggname]", color="#c8ffc8")
 define city = Character("[ggcity]", color="#c8ffc8")
 define antonmom = Character('Мама Антона', color="#c8ffc8")
 define granny = Character('Бабуля', color="#c8ffc8", image="granny")
+define aris = Character("[Ggirl]",color="000000", image="aris")
 #Музыка
 define audio.trainmusic = "music/trainmusic.mp3"
+define audio.musicmorning = "music/musicmorning.mp3"
+define audio.musickitchen = "music/musickitchen.mp3"
 #Звуки
 define audio.dindon = "sounds/dindon.mp3"
 define audio.dreamDown = "sounds/dreamDown.mp3"
 define audio.grannyshocking = "sounds/grannyshocking.mp3"
 define audio.trainOpen = "sounds/trainOpen.mp3"
 define audio.trainMagic = "sounds/trainMagic.mp3"
+define audio.soundbear = "sounds/soundbear.mp3"
+define audio.soundkitchen = "sounds/soundkitchen.mp3"
+define audio.soundlaugh = "sounds/soundlaugh.mp3"
+#Концовка баллы
+define score = 0
 
+init:
+    $left2 = Position(xalign=0.3,yalign=1.0)
+    
 # Игра начинается здесь:
 label start:
 
@@ -32,8 +43,14 @@ label start:
     pause
     
     scene bg black with dissolve
-    $ ggname = renpy.input("Меня зовут").strip()
-    $ ggcity = renpy.input("Я приехал из").strip()
+    $ ggname = renpy.input("Меня зовут", default ="Антон").strip()
+    if ggname == "":
+        $ ggname = "Антон"
+    $ ggcity = renpy.input("Я приехал из", default ="Копейска").strip()
+    if ggcity == "":
+        $ ggcity = "Копейска"
+
+
     
     "У меня есть семья, сестра учится в Москве, папа лежит в больнице..."
     show antonmom with dissolve:
@@ -119,11 +136,10 @@ label scared:
     GG "(Чёрт, надо поторопиться и выходить.)"
     scene bg black with dissolve
     window hide
-    pause
-    return
+    jump scene3
     
 label helped:
-
+    $ score += 1
     GG "Кто-нибудь, подскажите пожалуйста, какая следующая станция?!"
     GG "(Может стоило подойти к кому-нибудь, а не орать на весь вагон…)"
     
@@ -165,6 +181,154 @@ label helped:
     
     scene bg black with dissolve
     window hide
-    pause
+    jump scene3
     
+label scene3:    
+    scene vuzmorning1 with dissolve
+    play music musicmorning fadein 1.0
+    
+    GG "(На улице весьма хорошая погода, вот бы прогуляться после пар.)"
+    
+    GG "(После 9-ого класса, я ещё не знал, чего хочу, поэтому решил дойти до 11-ого класса и к счастью, я тогда познакомился с интересной профессией «гейм-дизайнер»)"
+    
+    GG "(Мне понравилась идея создавать собственные игровые миры, механики, концепции, определять сеттинг игры. Я думаю, что это очень интересная работа!)"
+    
+    GG "(Один из нужных навыков гейм-дизайнера это воображение, я только начал его развивать, но у меня уже есть плоды.)"
+
+    GG "(Например, я могу с лёгкостью представить, что передо мной какое-то животное.)"
+
+    scene vuzmorningbear
+    play sound soundbear
+    
+    GG "(Ого, как реалистично!)"
+    
+    GG "(Даже подозрительно реалистично…)"
+    
+    GG "(Пожалуй, сегодня я пойду другой дорогой.)"
+    stop music fadeout 1.0
+    
+    scene vuzkitchen2 with dissolve
+    play music musickitchen
+    
+    GG "(Ничего не меняется, те же люди, та же атмосфера, опять приходится покупать самую дешёвую еду, когда же в моей жизни что-то начнёт меняться…)"
+    
+    GG "(Я только сел за стол и тут же услышал, как кто-то окликнул меня)"
+    
+    play sound soundkitchen
+    
+    show aris gloomy1 at left2 with moveinleft
+    
+    "???" "Эй, ты! Чего такой кислый, сидишь тут один, никаких друзей нет что ли?"
+    
+    show aris gloomy2 at left2
+    
+    GG "(Ко мне впервые подошли, чтобы познакомиться, на вид и не скажешь, но я рад этому.)"
+    
+    GG "Как тебя зовут?"
+    
+    $ Ggirl = renpy.input("Эту девушку зовут:", default ="Айрис").strip()
+    if Ggirl == "":
+        $ Ggirl = "Айрис"
+    
+    aris proud1 "Я вторая принцесса королевства Э́льдии, Бо́реас Де Ла́ри [Ggirl], но ты можешь называть меня просто [Ggirl]."
+    
+    aris proud2 "Как же зовут тебя?"
+    
+    menu:
+    
+        "Подыграем?"
+        
+        "(Почему бы мне не подыграть ей?)":
+            jump played
+        
+        "(У неё синдром восьмиклассника? Пожалуй, представлюсь как обычно.)":
+            jump besimple
     return
+    
+label played:
+    $ score += 1
+    GG "Я старший сын императора Ричарда, Но́тас Грейрат [ggname], но ты можешь называть меня просто [ggname]."
+    
+    show aris surprise1 
+    
+    "..."
+    
+    show aris surprise2
+    
+    "..."
+    
+    aris sly1 "Ого, у тебя тоже голубая кровь? Приятно познакомиться [ggname]."
+    
+    aris speak1 "Я тут мимо проходила и увидела твою кислую рожу."
+    
+    aris angry1 "Меня это взбесило!"
+    
+    aris speak2 "Поэтому пришла исправить это."
+    
+    play sound soundlaugh
+    
+    GG "Я думаю, что у тебя получилось."
+    
+    show aris surprise3 at left2
+    
+    "..."
+    
+    show aris shy1 at left2
+    
+    "..."
+    
+    jump scene3_1
+    
+    
+    
+
+label besimple:
+    
+    GG "Моё имя [ggname]"
+    
+    aris gloomy2 "..."
+    
+    aris gloomy1 "Я сегодня решила заняться благотворительностью, поэтому сяду рядом с тобой, можешь меня не благодарить."
+    
+    jump scene3_1
+
+label scene3_1:
+    "" "[score]"
+    show aris speak3 at left2
+    
+    "[ggname] и [Ggirl] начали общаться и узнали, что они с одного направления."
+    
+    aris speak3 "Так ты тоже хочешь стать гейм-дизайнером, почему ты решил выбрать эту профессию?"
+    
+    show aris norm1 at left2
+    
+    GG "Ну... Просто я хотел бы создавать…"
+    
+    aris sly2 "Ты чего такой неуверенный, боишься меня? Я обычно не кусаюсь."
+    
+    GG "(Мне не послышалось? Она сказала обычно?)"
+    
+    show aris norm1 at left2
+    
+    GG "Я всегда был увлечен компьютерными играми. Меня привлекает возможность создавать собственные миры и истории, которые заставляют людей переживать разные эмоции."
+    
+    GG "А почему ты выбрала гейм-дизайн?"
+    
+    aris speak4 "Я люблю рисовать, придумывать дизайн игрового мира и дизайн персонажей!"
+    
+    GG "Это здорово! Спасибо, что поговорила со мной, мне стало лучше."
+    
+    aris shy2 "Не стоит благодарности!"
+    
+    show aris shy3 
+    
+    "..."
+    
+    aris speak5 "Я пошла по королевским делам, увидимся позже…"
+    
+    hide aris with moveoutleft
+    
+    GG " (Приятно осознавать, что это не последняя наша встреча.)"
+    
+    stop music
+    pause
